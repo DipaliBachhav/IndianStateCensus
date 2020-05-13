@@ -10,6 +10,8 @@ public class CensusAnalyserTest {
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.";
+    private static String WRONG_CSV_FILE_TYPE = "./src/test/resources/StateCensusData.txt";
+    private static final String WRONG_CSV_FILE_DELIMITER = "./src/test/resources/IndiaStateCensusData.java";
 
 
     @Test
@@ -18,7 +20,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(29, numOfRecords);
-    } catch (CensusAnalyserException e){
+            } catch (CensusAnalyserException e){
 
         }
     }
@@ -34,6 +36,30 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
+
+    @Test
+    public void givenStateStoreCsvFile_WhenTypeIncorrect_shouldReturnException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(ClassCastException.class);
+            censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_TYPE);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+    @Test
+    public void givenIndiaCensusCodeData_WithWrongFileDelimiter_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException expectedException = ExpectedException.none();
+            expectedException.expect(ClassCastException.class);
+            censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
 
     @Test
     public void givenIndianStateCSV_shouldReturnExactCount() {
