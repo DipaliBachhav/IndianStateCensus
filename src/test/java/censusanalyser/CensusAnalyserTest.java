@@ -10,7 +10,7 @@ public class CensusAnalyserTest {
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.";
-    private static String WRONG_CSV_FILE_TYPE = "./src/test/resources/StateCensusData.txt";
+    private static final String WRONG_CSV_FILE_TYPE = "./src/test/resources/StateCensusData.txt";
     private static final String WRONG_CSV_FILE_DELIMITER = "./src/test/resources/IndiaStateCensusDataIncorrect.csv";
     private static final String WRONG_HEADER_CSV_FILE_PATH = "./src/test/resources/IndiaStateCodeHeader.csv";
 
@@ -39,7 +39,7 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenStateStoreCsvFile_WhenTypeIncorrect_shouldReturnException() {
+    public void givenIndiaCensusData_WhenTypeIncorrect_shouldReturnException() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException expectedException = ExpectedException.none();
