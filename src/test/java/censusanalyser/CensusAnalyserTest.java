@@ -150,12 +150,12 @@ public class CensusAnalyserTest {
     @Test
 
     public void givenIndiaCensusData_WhenSortedOnPopulation_ShouldReturnResult() throws CensusAnalyserException {
-            CensusAnalyser censusAnalyzer = new CensusAnalyser();
-            int statePopulation= censusAnalyzer.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            String sortedCensusData = censusAnalyzer.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
-            Assert.assertEquals(607688, censusCsv[0].population);
-        }
+        CensusAnalyser censusAnalyzer = new CensusAnalyser();
+        int statePopulation = censusAnalyzer.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        String sortedCensusData = censusAnalyzer.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+        Assert.assertEquals(607688, censusCsv[0].population);
+    }
 
     @Test
     public void givenIndiaCensusData_WhenSortedOnDensity_ShouldReturnResult() {
@@ -164,6 +164,18 @@ public class CensusAnalyserTest {
             String sortedDensityData = censusAnalyser.getPopulationDensityWiseSortedData(INDIA_CENSUS_CSV_FILE_PATH);
             IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedDensityData, IndiaCensusCSV[].class);
             Assert.assertEquals(29, censusCsv[0].densityPerSqKm);
+        } catch (CensusAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIndianCensusData_whenSortedOnArea_shouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedAreaData = censusAnalyser.getPopulationAreaWiseSortedData();
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedAreaData, IndiaCensusCSV[].class);
+            Assert.assertEquals(7096, censusCSV[0].areaInSqKm);
         } catch (CensusAnalyserException e) {
         }
     }
