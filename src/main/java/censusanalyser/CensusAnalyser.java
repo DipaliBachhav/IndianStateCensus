@@ -12,6 +12,7 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     List<IndiaCensusDAO> censusList = null;
+    Map<String,IndiaCensusDAO> censusCSVMap;
 
     public CensusAnalyser() {
         this.censusList = new ArrayList<IndiaCensusDAO>();
@@ -38,8 +39,12 @@ public class CensusAnalyser {
     public int loadIndianStateCode(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFacroty.createCSVBuilder();
-            List<IndiaStateCodeCSV> stateCSVList = csvBuilder.getCSVFileList(reader, IndiaStateCodeCSV.class);
-            return stateCSVList.size();
+            Iterator<IndiaStateCodeCSV> stateCodeCSVIterator=csvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
+            Iterable<IndiaStateCodeCSV> stateCodeCSVIterable=()-> stateCodeCSVIterator;
+            StreamSupport.stream(stateCodeCSVIterable.spliterator(),false)
+                    .filter(stateCodeCSV -> censusCSVMap.get(stateCodeCSV.state) != null )
+                    .forEach(stateCodeCSV-> censusCSVMap.get(stateCodeCSV.state).stateCode = stateCodeCSV.stateCode);
+            return censusCSVMap.size();
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
