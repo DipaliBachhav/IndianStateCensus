@@ -144,7 +144,7 @@ public class CensusAnalyserTest {
         censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
         String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
         IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
-        Assert.assertEquals("Andhra Pradesh", censusCSV[0].state);
+        Assert.assertEquals("Sikkim", censusCSV[0].state);
     }
 
     @Test
@@ -154,6 +154,17 @@ public class CensusAnalyserTest {
             int statePopulation= censusAnalyzer.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyzer.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
-            Assert.assertEquals(29, censusCsv[0].population);
+            Assert.assertEquals(607688, censusCsv[0].population);
+        }
+
+    @Test
+    public void givenIndiaCensusData_WhenSortedOnDensity_ShouldReturnResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            String sortedDensityData = censusAnalyser.getPopulationDensityWiseSortedData(INDIA_CENSUS_CSV_FILE_PATH);
+            IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedDensityData, IndiaCensusCSV[].class);
+            Assert.assertEquals(29, censusCsv[0].densityPerSqKm);
+        } catch (CensusAnalyserException e) {
         }
     }
+}
