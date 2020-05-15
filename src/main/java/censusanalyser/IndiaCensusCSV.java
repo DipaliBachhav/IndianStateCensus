@@ -17,6 +17,9 @@ public class IndiaCensusCSV {
     public int densityPerSqKm;
     public String stateCode;
 
+    public IndiaCensusCSV(String state, int population, int populationDensity, int totalArea) {
+    }
+
 
     @Override
     public String toString() {

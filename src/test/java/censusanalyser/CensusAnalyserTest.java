@@ -17,6 +17,7 @@ public class CensusAnalyserTest {
     private static final String INDIA_STATE_CODE__WRONG_CSV_FILE_TYPE = "./src/main/resources/IndiaStateCode.txt";
     private static final String INDIA_STATE_CODE_WRONG_DELIMITER = "./src/test/resources/IndiaStateCodeIncorrect,csv";
     private static final String INDIA_STATE_CODE_WRONG_HEADER = "./src/test/resources/IndiaStateCodeHeader.csv";
+    private static final String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
 
 
     @Test
@@ -139,23 +140,28 @@ public class CensusAnalyserTest {
 
     @Test
     public void givenIndianCensusData_whenSortedOnState_shouldReturnSortedResult() throws CensusAnalyserException {
-
+        try{
         CensusAnalyser censusAnalyser = new CensusAnalyser();
         censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-        String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
+        String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
         IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
         Assert.assertEquals("Sikkim", censusCSV[0].state);
-    }
+    }catch (CensusAnalyserException e) {
+        }
+        }
 
     @Test
 
     public void givenIndiaCensusData_WhenSortedOnPopulation_ShouldReturnResult() throws CensusAnalyserException {
+        try{
         CensusAnalyser censusAnalyzer = new CensusAnalyser();
         int statePopulation = censusAnalyzer.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
         String sortedCensusData = censusAnalyzer.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
         IndiaCensusCSV[] censusCsv = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
         Assert.assertEquals(607688, censusCsv[0].population);
-    }
+    }catch (CensusAnalyserException e) {
+        }
+        }
 
     @Test
     public void givenIndiaCensusData_WhenSortedOnDensity_ShouldReturnResult() {
@@ -178,5 +184,14 @@ public class CensusAnalyserTest {
             Assert.assertEquals(7096, censusCSV[0].areaInSqKm);
         } catch (CensusAnalyserException e) {
         }
+    }
+
+    @Test
+    public void givenUSCensusData_shouldReturnCorrectRecords() throws CensusAnalyserException {
+        try{
+        CensusAnalyser censusAnalyser=new CensusAnalyser();
+        int censusDataCnt=censusAnalyser.loadUsCensusData(US_CENSUS_CSV_FILE_PATH);
+        Assert.assertEquals(51,censusDataCnt);
+    }catch (CensusAnalyserException e) { }
     }
 }
