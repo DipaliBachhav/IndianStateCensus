@@ -20,7 +20,7 @@ public class CensusAnalyser {
     }
 
     public int loadCensusData(Country country,String... csvFilePath) throws CensusAnalyserException {
-        censusCSVMap = new CensusLoader().loadCensusData(country,csvFilePath);
+        censusCSVMap = CensusAdapterFactory.getCensusData(country,csvFilePath);
         return censusCSVMap.size();
     }
 
