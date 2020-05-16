@@ -16,12 +16,12 @@ public class CensusAnalyser {
 
     public CensusAnalyser() {
     }
-    public int loadUsCensusData(String csvFilePath) throws CensusAnalyserException {
-        censusCSVMap=new CensusLoader().loadCensusData(csvFilePath,USCensusCSV.class);
+    public int loadUSCensusData(String... csvFilePath) throws CensusAnalyserException {
+        censusCSVMap = new CensusLoader().loadCensusData(USCensusCSV.class,csvFilePath);
         return censusCSVMap.size();    }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        censusCSVMap = new CensusLoader().loadCensusData(csvFilePath,IndiaCensusCSV.class);
+    public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
+        censusCSVMap = new CensusLoader().loadCensusData(IndiaCensusCSV.class,csvFilePath);
         return censusCSVMap.size();
     }
 
@@ -49,7 +49,7 @@ public class CensusAnalyser {
     }
 
 
-    public String getStateWiseSortedCensusData(String indiaCensusCsvFilePath) throws CensusAnalyserException {
+    public String getStateWiseSortedCensusData(String censusCsvFilePath, String indiaCensusCsvFilePath) throws CensusAnalyserException {
         if(censusCSVMap == null || censusCSVMap.size() ==0 ) {
             throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
