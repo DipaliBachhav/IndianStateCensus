@@ -7,7 +7,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toCollection;
@@ -48,6 +47,19 @@ public class CensusAnalyser {
         Iterable<E> csvIterable = () -> iterator;
         int numOfEnteries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
         return numOfEnteries;
+    }
+
+    public String getSortedCensusDataAsPerStateCode() throws CensusAnalyserException {
+        if(censusCSVMap == null || censusCSVMap.size() ==0 ) {
+            throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CensusDAO> censusCSVComparator = Comparator.comparing(census -> census.stateCode);
+        ArrayList censusDTOS=censusCSVMap.values().stream().
+                sorted(censusCSVComparator).
+                map(censusDAO-> censusDAO.getCensusDTO(country)).
+                collect(toCollection(ArrayList::new));
+        String sortedStateCode = new Gson().toJson(censusDTOS);
+        return sortedStateCode;
     }
 
 
