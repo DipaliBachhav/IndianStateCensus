@@ -17,9 +17,15 @@ public class IndiaCensusCSV {
     public int densityPerSqKm;
     public String stateCode;
 
-    public IndiaCensusCSV(String state, int population, int populationDensity, int totalArea) {
+    public IndiaCensusCSV() {
     }
 
+    public IndiaCensusCSV(String state, int population, int densityPerSqKm, int areaInSqKm) {
+        this.state = state;
+        this.population = population;
+        this.areaInSqKm = areaInSqKm;
+        this.densityPerSqKm = densityPerSqKm;
+    }
 
     @Override
     public String toString() {
