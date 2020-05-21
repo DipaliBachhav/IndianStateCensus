@@ -114,16 +114,4 @@ public class CensusAnalyser {
         String sortedAreaCensus = new Gson().toJson(censusDTOS);
         return sortedAreaCensus;
     }
-
-
-    /*private void sort(Comparator<CensusDAO> censusComparator) {
-        for (int i = 0; i < censusList.size() - 1; i++) {
-            for (int j = 0; j < censusList.size() - i - 1; j++) {
-                CensusDAO census1 = censusList.get(j);
-                CensusDAO census2 = censusList.get(j + 1);
-                censusList.set(j, census2);
-                censusList.set(j + 1, census1);
-            }
-        }
-    }*/
 }
